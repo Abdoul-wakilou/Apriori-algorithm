@@ -2,29 +2,18 @@ import csv
 
 # Charger les transactions depuis un fichier CSV
 def load_transactions(file_path):
-    """
-    Charge les transactions à partir d'un fichier CSV.
-    :param file_path: Chemin vers le fichier CSV.
-    :return: Liste des transactions (chaque transaction est une liste d'items).
-    """
     transactions = []
     with open(file_path, 'r') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)  # Sauter l'en-tête
         for row in reader:
             # Considérer tous les items (à partir de la 2e colonne) comme une transaction
-            items = row[1:]  # Les items commencent à partir de la 2e colonne
+            items = row[1:]
             transactions.append(items)
     return transactions
 
 # Calculer le support d'un itemset
 def calculate_support(transactions, itemset):
-    """
-    Calcule le support d'un itemset dans les transactions.
-    :param transactions: Liste des transactions.
-    :param itemset: Ensemble d'items à vérifier.
-    :return: Nombre de transactions contenant l'itemset.
-    """
     count = 0
     for transaction in transactions:
         if set(itemset).issubset(set(transaction)):
@@ -33,12 +22,6 @@ def calculate_support(transactions, itemset):
 
 # Générer des candidats de taille k
 def generate_candidates(frequent_itemsets, k):
-    """
-    Génère des candidats de taille k à partir des itemsets fréquents de taille k-1.
-    :param frequent_itemsets: Liste des itemsets fréquents de taille k-1.
-    :param k: Taille des candidats à générer.
-    :return: Liste des candidats de taille k.
-    """
     candidates = []
     for i in range(len(frequent_itemsets)):
         for j in range(i + 1, len(frequent_itemsets)):
@@ -51,12 +34,6 @@ def generate_candidates(frequent_itemsets, k):
 
 # Algorithme Apriori
 def apriori(transactions, minsup):
-    """
-    Implémente l'algorithme Apriori pour trouver les itemsets fréquents.
-    :param transactions: Liste des transactions.
-    :param minsup: Seuil minimal de support.
-    :return: Dictionnaire des itemsets fréquents par taille.
-    """
     # Trouver les itemsets fréquents de taille 1
     unique_items = set(item for transaction in transactions for item in transaction)
     L1 = []
@@ -85,7 +62,7 @@ def apriori(transactions, minsup):
 # Fonction principale
 if __name__ == "__main__":
     # Chemin vers le fichier CSV
-    file_path = 'transactions.csv'  # Assurez-vous que ce fichier existe dans le même dossier ou spécifiez un chemin complet.
+    file_path = 'transactions.csv' 
 
     # Charger les transactions
     try:
@@ -95,7 +72,7 @@ if __name__ == "__main__":
         exit()
 
     # Exécuter l'algorithme Apriori
-    minsup = 2  # Seuil minimal de support
+    minsup = 2 
     frequent_itemsets = apriori(transactions, minsup)
 
     # Afficher les résultats
